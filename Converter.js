@@ -1,3 +1,8 @@
+/*
+ * Author: g-gar
+ * Version: 1.0.0
+ */
+
 class Converter {
     constructor(){
         
