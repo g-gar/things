@@ -5,4 +5,4 @@ Just a bunch of code
 |:------------:|
 | Javascript   |
 | Java 	       |
-| CSS/HTML     |
+| CSS/HTML     | <- fewer
