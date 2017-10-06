@@ -28,7 +28,6 @@ class Converter {
     static convert(params, unitTo){
     	let res = void 0
     	if (typeof params == 'string') res = this.convertString(params, unitTo)
-
     	return res
     }
     static get UNITS(){
