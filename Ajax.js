@@ -23,6 +23,35 @@ class Ajax {
 
 		this.setOptions(options)
 	}
+	setOptions(options){
+		let a = (variable, value)=>{return (!this.hasOwnProperty(variable) ? value : this[variable]) }
+
+		this.options = a.call(this, 'options', new Object())
+		let defaultValues = ['GET', null, true, null, null, new Array(), null, new Object()]
+		'method url async user password headers message callbacks'
+			.split(' ')
+			.map((variable, i)=>{
+				this.options[variable] = a.call(this.options, variable, options && options.hasOwnProperty(variable) ? options[variable] : defaultValues[i])
+				if (variable == 'headers') this.options[variable].map(e=>e.split(':'))
+			})
+
+		this.options.callbacks = a.call(this.options, 'callbacks', new Object())
+		let defaultCallbacks = [
+			function(result){console.log(result)}, 
+			function(result){console.log(result)}, 
+			function(event){
+				if (event.lengthComputable) console.log(`computable ${event.loaded}, ${event.total}, ${event.loaded / event.total}`)
+				else console.log('not computable')
+			}
+		]
+		'error success progress'
+			.split(' ')
+			.map((callback,i)=>{
+				callback = `on${callback}`
+				this.options.callbacks[callback] = a.call(this.options.callbacks, callback, options && options.callbacks && options.callbacks.hasOwnProperty(callback) ? options.callbacks[callback] : defaultCallbacks[i])
+			})
+		return this
+	}
 	open(){
 		this.setOptions(this.stack.shift())
 		this.xml.open(this.options.method, this.options.url, this.options.async, this.options.username, this.options.password)
@@ -43,34 +72,6 @@ class Ajax {
 			}
 		}
 
-		return this
-	}
-	setOptions(options){
-		let a = (variable, value)=>{return (!this.hasOwnProperty(variable) ? value : this[variable]) }
-
-		this.options = a.call(this, 'options', new Object())
-		let defaultValues = ['GET', null, true, null, null, new Array(), null, new Object()]
-		'method url async user password headers message callbacks'
-			.split(' ')
-			.map((variable, i)=>{
-				this.options[variable] = a.call(this.options, variable, options && options.hasOwnProperty(variable) ? options[variable] : defaultValues[i])
-				if (variable == 'headers') this.options[variable].map(e=>e.split(':'))
-			})
-
-		this.options.callbacks = a.call(this.options, 'callbacks', new Object())
-		let defaultCallbacks = [
-			function(result){console.log(result)}, 
-			function(result){console.log(result)}, 
-			function(event){
-				if (event.lengthComputable) console.log(`computable ${event.loaded}, ${event.total}, ${event.loaded / event.total}`)
-				else console.log('not computable')}
-		]
-		'error success progress'
-			.split(' ')
-			.map((callback,i)=>{
-				callback = `on${callback}`
-				this.options.callbacks[callback] = a.call(this.options.callbacks, callback, options && options.callbacks && options.callbacks.hasOwnProperty(callback) ? options.callbacks[callback] : defaultCallbacks[i])
-			})
 		return this
 	}
 	send(message=null){
