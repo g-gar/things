@@ -5,7 +5,7 @@ Just a bunch of code
 |:------------:|
 | Javascript   |
 | Java 	       |
-| CSS/HTML     | <- fewer
+| CSS/HTML     |
 
 ## Description
 
