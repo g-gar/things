@@ -16,7 +16,7 @@ class Logger {
 		this.logs = new Array()
 	}
 	add(...messages){
-		messages[0].map(message=>{console.log(message);this.logs.push(message)})
+		messages[0].map(message=>{this.logs.push(message)})
 		return this
 	}
 	show(callback, async = false){
